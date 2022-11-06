@@ -11,5 +11,10 @@ self._$feather_config = {
   codec: self._$feather.codecs["plain"],
   bare: (): string => {
     return "https://radon.games/bare/";
+  },
+  scripts: {
+    bundle: "/bundle.js",
+    config: "/config.js",
+    client: "/client.js"
   }
 };

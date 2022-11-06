@@ -9,7 +9,16 @@ export default function html(content: string, baseUrl: string): string {
   for (const i in AST.childNodes) {
     AST.childNodes[i] = rewriteNode(AST.childNodes[i], baseUrl);
   }
-  return serialize(AST);
+  return wrapHtml(serialize(AST), baseUrl);
+}
+
+function wrapHtml(source: string, baseUrl: string): string {
+  return `<head>
+    <script src="${self._$feather_config.scripts.bundle}"></script>
+    <script src="${self._$feather_config.scripts.config}"></script>
+    <script src="${self._$feather_config.scripts.client}"></script>
+    <link rel="icon" href="${rewriteURL("/favicon.ico", baseUrl)}">
+  </head>${source}`;
 }
 
 function rewriteNode(node: any, baseUrl: string): any {

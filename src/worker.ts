@@ -34,10 +34,23 @@ class FeatherWorker {
           (location.origin + self._$feather_config.prefix).length
         )
       ) + new URL(event.request.url).search;
+
+    console.debug(url);
+
+    // handle non proxied requests
     if (!/^https?:\/\//.test(url)) {
-      return fetch(event.request.url);
+      const requestOptions: RequestInit = {
+        method: event.request.method,
+        headers: event.request.headers
+      };
+      if (!["GET", "HEAD"].includes(event.request.method)) {
+        requestOptions.body = event.request.body;
+        // @ts-ignore
+        // typescript doesn't like this, but it's valid
+        requestOptions.duplex = "half";
+      }
+      return fetch(event.request.url, requestOptions);
     }
-    console.log(url);
 
     const requestOptions: BareFetchInit = {
       method: event.request.method,
@@ -58,6 +71,25 @@ class FeatherWorker {
       url,
       requestOptions
     );
+
+    // handle redirects
+    if (response.finalURL !== url) {
+      return new Response(
+        `
+        <script>
+          location.href = "${self._$feather.rewrite.url(
+            response.finalURL,
+            url
+          )}";
+        </script>
+      `,
+        {
+          headers: {
+            "Content-Type": "text/html"
+          }
+        }
+      );
+    }
 
     const contentType = response.headers.get("content-type");
 

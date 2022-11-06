@@ -19,7 +19,7 @@ export default function createSearchInput(search: HTMLInputElement): void {
     throw new Error("Unsupported browser");
   }
 
-  if (location.protocol !== "https:") {
+  if (location.protocol !== "https:" && location.hostname !== "localhost") {
     throw new Error("Unsupported protocol");
   }
 

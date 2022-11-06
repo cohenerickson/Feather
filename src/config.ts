@@ -10,7 +10,7 @@ self._$feather_config = {
   prefix: "/~/",
   codec: self._$feather.codecs["plain"],
   bare: (): string => {
-    return "https://radon.games/bare/";
+    return "http://localhost:8080";
   },
   scripts: {
     bundle: "/bundle.js",

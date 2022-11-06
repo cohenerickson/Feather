@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"npx tailwindcss -i ./public/root.css -o ./public/style.css --watch\" \"webpack serve --mode development\"",
-    "build": "npx tailwindcss -i ./public/root.css -o ./public/style.css --minify webpack --mode production"
+    "build": "npx tailwindcss -i ./public/root.css -o ./public/style.css --minify && webpack --mode production"
   },
   "repository": {
     "type": "git",

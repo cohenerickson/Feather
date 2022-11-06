@@ -3,7 +3,7 @@ const path = require("path");
 module.exports = {
   entry: {
     config: "./src/config.ts",
-    worker: "./src/worker/index.ts",
+    worker: "./src/worker.ts",
     client: "./src/client/index.ts",
     bundle: "./src/bundle.ts"
   },

@@ -3,7 +3,7 @@ import BareClient, {
   BareResponseFetch,
   createBareClient
 } from "@tomphttp/bare-client";
-import FetchEvent from "../types/FetchEvent";
+import FetchEvent from "./types/FetchEvent";
 importScripts("./bundle.js", "./config.js");
 
 declare global {

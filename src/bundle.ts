@@ -27,5 +27,6 @@ self._$feather = {
       scope: self._$feather_config.prefix
     });
   },
+  backup: {},
   createSearchInput
 };

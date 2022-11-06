@@ -13,5 +13,8 @@ export default interface FeatherBundle {
     url(url: string, meta: string): string;
   };
   register: (url: string) => void;
+  backup: {
+    [key: string]: any;
+  };
   createSearchInput: (id: HTMLInputElement) => void;
 }

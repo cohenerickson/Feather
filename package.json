@@ -30,6 +30,8 @@
   "dependencies": {
     "@tomphttp/bare-client": "^1.1.0",
     "bowser": "^2.11.0",
+    "esotope-hammerhead": "^0.6.2",
+    "meriyah": "^4.3.2",
     "parse5": "^7.1.1"
   }
 }

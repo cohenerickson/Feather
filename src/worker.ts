@@ -35,8 +35,6 @@ class FeatherWorker {
         )
       ) + new URL(event.request.url).search;
 
-    console.debug(url);
-
     // handle non proxied requests
     if (!/^https?:\/\//.test(url)) {
       const requestOptions: RequestInit = {

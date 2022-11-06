@@ -8,7 +8,7 @@ importScripts("./bundle.js", "./config.js");
 
 declare global {
   interface Window {
-    featherWorker: typeof FeatherWorker;
+    FeatherWorker: typeof FeatherWorker;
   }
 }
 
@@ -108,6 +108,6 @@ class FeatherWorker {
   }
 }
 
-self.featherWorker = FeatherWorker;
+self.FeatherWorker = FeatherWorker;
 
 export {};

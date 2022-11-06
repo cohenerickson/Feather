@@ -1,13 +1,8 @@
+import FeatherConfig from "./types/FeatherConfig";
+
 declare global {
   interface Window {
-    _$feather_config: {
-      prefix: string;
-      codec: {
-        encode(url: string): string;
-        decode(url: string): string;
-      };
-      bare(): string;
-    };
+    _$feather_config: FeatherConfig;
   }
 }
 
@@ -18,5 +13,3 @@ self._$feather_config = {
     return "https://radon.games/bare/";
   }
 };
-
-export {};

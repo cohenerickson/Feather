@@ -2,8 +2,7 @@ import { parse, serialize } from "parse5";
 import rewriteURL from "./url";
 import rewriteCSS from "./css";
 import rewriteJS from "./js";
-
-const rewriteSrcset = (x: string, y: any): string => x;
+import rewriteSrcSet from "./srcset";
 
 export default function html(content: string, baseUrl: string): string {
   const AST: any = parse(content);
@@ -68,7 +67,10 @@ function rewriteNode(node: any, baseUrl: string): any {
 
     case "style":
       for (let i in node.childNodes) {
-        node.childNodes[i].value = rewriteCSS(node.childNodes[i].value, baseUrl);
+        node.childNodes[i].value = rewriteCSS(
+          node.childNodes[i].value,
+          baseUrl
+        );
       }
       break;
 
@@ -109,7 +111,7 @@ function rewriteNode(node: any, baseUrl: string): any {
             name: "data-feather_srcset",
             value: node.attrs[i].value
           });
-          node.attrs[i].value = rewriteSrcset(node.attrs[i].value, baseUrl);
+          node.attrs[i].value = rewriteSrcSet(node.attrs[i].value, baseUrl);
         } else if (node.attrs[i].name === "nonce") {
           node.attrs.push({
             name: "data-feather_nonce",
@@ -133,7 +135,7 @@ function rewriteNode(node: any, baseUrl: string): any {
             name: "data-feather_srcset",
             value: node.attrs[i].value
           });
-          node.attrs[i].value = rewriteSrcset(node.attrs[i].value, baseUrl);
+          node.attrs[i].value = rewriteSrcSet(node.attrs[i].value, baseUrl);
         } else if (node.attrs[i].name === "nonce") {
           node.attrs.push({
             name: "data-feather_nonce",

@@ -10,7 +10,7 @@ if (_f$get(x) instanceof _f$get(Window)) {
 
 }
 
-_f$get(_f$get(window).location.href) = _f$get("/");
+_f$get(window).location.href = "/";
 
 function f(x) {
   return _f$get(x) instanceof _f$get(Window);

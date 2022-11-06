@@ -10,8 +10,10 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "./dist"),
     filename: "[name].js",
+    sourceMapFilename: "[name].js.map",
     clean: true
   },
+  devtool: "source-map",
   module: {
     rules: [
       {

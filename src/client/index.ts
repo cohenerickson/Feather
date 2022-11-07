@@ -1,6 +1,11 @@
+import "./elements";
+import "./history";
 import LocationProxy from "./location";
-import WindowProxy from "./window";
 import "./navigator";
+import "./network";
+import StorageProxy from "./storage";
+import "./websocket";
+import WindowProxy from "./window";
 
 declare global {
   interface Window {
@@ -18,13 +23,15 @@ const isInstanceOf = (x: any, y: string): boolean => {
   return false;
 };
 
-self._$f = (x: any): any => {
-  if (isInstanceOf(x, "Location")) {
-    return new LocationProxy(x);
-  } else if (isInstanceOf(x, "Window")) {
-    return new WindowProxy(x);
+self._$f = (prop: any): any => {
+  if (isInstanceOf(prop, "Location")) {
+    return new LocationProxy(prop);
+  } else if (isInstanceOf(prop, "Window")) {
+    return new WindowProxy(prop);
+  } else if (isInstanceOf(prop, "Storage")) {
+    return new StorageProxy(prop);
   }
-  return x;
+  return prop;
 };
 
 export {};

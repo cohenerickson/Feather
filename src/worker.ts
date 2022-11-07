@@ -24,7 +24,7 @@ class FeatherWorker {
 
   async fetch(event: FetchEvent): Promise<Response> {
     if (!this.client)
-      return new Response("Not Initialized.", {
+      return new Response("", {
         status: 205
       });
 
@@ -37,17 +37,11 @@ class FeatherWorker {
 
     // handle non proxied requests
     if (!/^https?:\/\//.test(url)) {
-      const requestOptions: RequestInit = {
-        method: event.request.method,
-        headers: event.request.headers
-      };
-      if (!["GET", "HEAD"].includes(event.request.method)) {
-        requestOptions.body = event.request.body;
-        // @ts-ignore
-        // typescript doesn't like this, but it's valid
-        requestOptions.duplex = "half";
+      try {
+        return fetch(event.request);
+      } catch {
+        console.warn("ERR_FETCH:", event.request.url);
       }
-      return fetch(event.request.url, requestOptions);
     }
 
     const requestOptions: BareFetchInit = {
@@ -94,18 +88,21 @@ class FeatherWorker {
     let responseData: ReadableStream<Uint8Array> | string | null =
       response.body;
 
-    if (contentType && contentType.includes("text/html")) {
+    if (
+      (contentType && contentType.includes("text/html")) ||
+      ["document", "iframe"].includes(event.request.destination)
+    ) {
       const content = await response.text();
       responseData = self._$feather.rewrite.html(content, url);
     } else if (
       (contentType && contentType.includes("text/css")) ||
-      event.request.destination === "style"
+      ["style"].includes(event.request.destination)
     ) {
       const content = await response.text();
       responseData = self._$feather.rewrite.css(content, url);
     } else if (
       (contentType && contentType.includes("text/javascript")) ||
-      event.request.destination === "script"
+      ["script", "worker"].includes(event.request.destination)
     ) {
       const content = await response.text();
       responseData = self._$feather.rewrite.js(content, url);

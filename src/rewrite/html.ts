@@ -37,34 +37,33 @@ function rewriteNode(node: any, baseUrl: string): any {
 
     case "script":
       let src: boolean = false;
+      let type = "application/javascript";
       for (let i in node.attrs) {
-        if (node.attrs.includes({ name: "type", value: "application/json" })) {
-          return;
-        } else {
-          if (node.attrs[i].name === "src") {
-            node.attrs.push({
-              name: "data-feather_src",
-              value: node.attrs[i].value
-            });
-            node.attrs[i].value = rewriteURL(node.attrs[i].value, baseUrl);
-            src = true;
-          } else if (node.attrs[i].name === "integrity") {
-            node.attrs.push({
-              name: "data-feather_integrity",
-              value: node.attrs[i].value
-            });
-            node.attrs[i].value = "";
-          } else if (node.attrs[i].name === "nonce") {
-            node.attrs.push({
-              name: "data-feather_nonce",
-              value: node.attrs[i].value
-            });
-            node.attrs[i].value = "";
-          }
+        if (node.attrs[i].name === "type") {
+          type = node.attrs[i].value;
+        } else if (node.attrs[i].name === "src") {
+          src = true;
+          node.attrs.push({
+            name: "data-feather_src",
+            value: node.attrs[i].value
+          });
+          node.attrs[i].value = rewriteURL(node.attrs[i].value, baseUrl);
+        } else if (node.attrs[i].name === "integrity") {
+          node.attrs.push({
+            name: "data-feather_integrity",
+            value: node.attrs[i].value
+          });
+          node.attrs[i].value = "";
+        } else if (node.attrs[i].name === "nonce") {
+          node.attrs.push({
+            name: "data-feather_nonce",
+            value: node.attrs[i].value
+          });
+          node.attrs[i].value = "";
         }
       }
 
-      if (!src) {
+      if (!src && /application\/javascript/.test(type)) {
         for (let i in node.childNodes) {
           node.childNodes[i].value = rewriteJS(
             node.childNodes[i].value,

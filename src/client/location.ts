@@ -35,7 +35,7 @@ export function getLocation(scope: Location): Location | {} {
   }
 }
 
-export class LocationProxy {
+export default class LocationProxy {
   constructor(scope: Location) {
     return new Proxy(new Location(), {
       get(target: any, prop: string, receiver: any): any {
@@ -53,5 +53,3 @@ export class LocationProxy {
     });
   }
 }
-
-export default LocationProxy;

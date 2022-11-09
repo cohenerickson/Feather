@@ -14,7 +14,7 @@ declare global {
 }
 
 const isInstanceOf = (x: any, y: string): boolean => {
-  let ctx: any[] = [parent, top, window, globalThis, self];
+  let ctx: any[] = [window, parent, top];
   for (let i = 0; i < ctx.length; i++) {
     if (x instanceof ctx[i]._$feather.backup[y]) {
       return true;

@@ -24,7 +24,7 @@ class FeatherWorker {
 
   async fetch(event: FetchEvent): Promise<Response> {
     if (!this.client)
-      return new Response("", {
+      return new Response(null, {
         status: 205
       });
 
@@ -108,30 +108,33 @@ class FeatherWorker {
       responseData = self._$feather.rewrite.js(content, url);
     }
 
-    return new Response(responseData, {
-      status: response.status,
-      statusText: response.statusText,
-      headers: ((): Headers => {
-        const headers: Headers = response.headers;
-        [
-          "Cache-Control",
-          "Content-Security-Policy",
-          "Content-Security-Policy-Report-Only",
-          "Cross-Origin-Opener-Policy",
-          "Cross-Origin-Opener-Policy-Report-Only",
-          "Report-To",
-          "Strict-Transport-Security",
-          "X-Content-Type-Options",
-          "X-Frame-Options",
-          "Access-Control-Allow-Origin"
-        ].forEach((header: string): void => {
-          if (headers.has(header)) {
-            headers.delete(header);
-          }
-        });
-        return headers;
-      })()
-    });
+    return new Response(
+      [101, 204, 205, 304].includes(response.status) ? null : responseData,
+      {
+        status: response.status,
+        statusText: response.statusText,
+        headers: ((): Headers => {
+          const headers: Headers = response.headers;
+          [
+            "Cache-Control",
+            "Content-Security-Policy",
+            "Content-Security-Policy-Report-Only",
+            "Cross-Origin-Opener-Policy",
+            "Cross-Origin-Opener-Policy-Report-Only",
+            "Report-To",
+            "Strict-Transport-Security",
+            "X-Content-Type-Options",
+            "X-Frame-Options",
+            "Access-Control-Allow-Origin"
+          ].forEach((header: string): void => {
+            if (headers.has(header)) {
+              headers.delete(header);
+            }
+          });
+          return headers;
+        })()
+      }
+    );
   }
 }
 

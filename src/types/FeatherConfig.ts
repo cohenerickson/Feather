@@ -1,5 +1,8 @@
 export default interface FeatherConfig {
   bare: string;
   prefix: string;
-  codec: 1 | 2 | 3;
-};
+  codec: 0;
+  bundle: string;
+  client: string;
+  disableCache?: boolean;
+}

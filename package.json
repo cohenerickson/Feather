@@ -1,7 +1,9 @@
 {
   "name": "feather",
   "version": "0.0.1",
+  "author": "Cohen Erickson <contact@cohenerickson.com>",
   "description": "",
+  "keywords": [],
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"bare-server-node --port 8080 --host localhost\" \"npx tailwindcss -i ./public/root.css -o ./public/style.css --watch\" \"webpack serve --mode development\"",
@@ -11,12 +13,6 @@
     "type": "git",
     "url": "git+https://github.com/cohenerickson/Feather.git"
   },
-  "keywords": [],
-  "author": "Cohen Erickson",
-  "bugs": {
-    "url": "https://github.com/cohenerickson/Feather/issues"
-  },
-  "homepage": "https://github.com/cohenerickson/Feather#readme",
   "devDependencies": {
     "@tomphttp/bare-server-node": "^1.1.0",
     "concurrently": "^7.5.0",
@@ -28,6 +24,8 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
-    "@tomphttp/bare-client": "^1.1.0"
+    "@tomphttp/bare-client": "^1.1.0",
+    "esotope-hammerhead": "^0.6.3",
+    "meriyah": "^4.3.3"
   }
 }

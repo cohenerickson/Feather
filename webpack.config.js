@@ -1,14 +1,16 @@
 const path = require("path");
 
 module.exports = {
-  devtool: "source-map",
   entry: {
-    feather: "./src/feather.ts"
+    worker: "./src/sw.ts",
+    bundle: "./src/bundle.ts",
+    client: "./src/client.ts"
   },
   output: {
     path: path.resolve(__dirname, "./dist"),
     filename: "[name].js"
   },
+  devtool: "source-map",
   module: {
     rules: [
       {
@@ -24,6 +26,13 @@ module.exports = {
   devServer: {
     static: {
       directory: path.join(__dirname, "public")
+    },
+    proxy: {
+      "/bare/": {
+        pathRewrite: { "^/bare/": "" },
+        target: "http://localhost:8080",
+        ws: true
+      }
     },
     compress: true,
     port: 9000

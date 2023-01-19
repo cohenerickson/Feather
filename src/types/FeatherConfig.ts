@@ -1,13 +1,5 @@
 export default interface FeatherConfig {
+  bare: string;
   prefix: string;
-  codec: {
-    encode(url: string): string;
-    decode(url: string): string;
-  };
-  scripts: {
-    bundle: string;
-    config: string;
-    client: string;
-  };
-  bare(): string;
-}
+  codec: 1 | 2 | 3;
+};

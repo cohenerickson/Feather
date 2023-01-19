@@ -1,18 +1,14 @@
 const path = require("path");
 
 module.exports = {
+  devtool: "source-map",
   entry: {
-    config: "./src/config.ts",
-    worker: "./src/worker.ts",
-    client: "./src/client/index.ts",
-    bundle: "./src/bundle.ts"
+    feather: "./src/feather.ts"
   },
   output: {
     path: path.resolve(__dirname, "./dist"),
-    filename: "[name].js",
-    clean: true
+    filename: "[name].js"
   },
-  devtool: "source-map",
   module: {
     rules: [
       {
@@ -33,3 +29,38 @@ module.exports = {
     port: 9000
   }
 };
+
+// module.exports = [
+//   Object.assign(
+//     {
+//       entry: "./src/sw.ts",
+//       output: {
+//         path: path.resolve(__dirname, "./dist"),
+//         filename: "sw.js"
+//       }
+//     },
+//     defaultConfig
+//   ),
+//   Object.assign(
+//     {
+//       entry: "./src/config.ts",
+//       output: {
+//         path: path.resolve(__dirname, "./dist"),
+//         filename: "config.js",
+//         library: "_$featherConfig",
+//         libraryTarget: "umd",
+//         libraryExport: "default"
+//       }
+//     },
+//     defaultConfig
+//   ),
+//   {
+//     devServer: {
+//       static: {
+//         directory: path.join(__dirname, "public")
+//       },
+//       compress: true,
+//       port: 9000
+//     }
+//   }
+// ];

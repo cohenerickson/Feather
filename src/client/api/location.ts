@@ -5,17 +5,17 @@ declare var _$feather: FeatherBundle;
 declare var _$featherConfig: FeatherConfig;
 
 export default class FeatherLocation extends URL {
-  #scope: Window;
+  #scope: Location;
   ancestorOrigins: { length: number };
 
-  constructor(scope: Window = window) {
+  constructor(scope: Location = location) {
     super(
       _$feather.codecs[_$featherConfig.codec].decode(
-        scope.location.pathname.slice(_$featherConfig.prefix.length)
+        scope.pathname.slice(_$featherConfig.prefix.length)
       )
     );
     this.#scope = scope;
-    this.ancestorOrigins = scope.location.ancestorOrigins;
+    this.ancestorOrigins = scope.ancestorOrigins;
     // @ts-ignore
     this["Symbol(Symbol.toStringTag)"] = "Location";
     // @ts-ignore
@@ -23,7 +23,7 @@ export default class FeatherLocation extends URL {
   }
 
   assign(url: string | URL): void {
-    this.#scope.location.assign(
+    this.#scope.assign(
       _$featherConfig.prefix +
         _$feather.codecs[_$featherConfig.codec].encode(
           new URL(url, this).toString()
@@ -32,11 +32,11 @@ export default class FeatherLocation extends URL {
   }
 
   reload(): void {
-    this.#scope.location.reload();
+    this.#scope.reload();
   }
 
   replace(url: string | URL): void {
-    this.#scope.location.replace(
+    this.#scope.replace(
       _$featherConfig.prefix +
         _$feather.codecs[_$featherConfig.codec].encode(
           new URL(url, this).toString()
@@ -52,3 +52,7 @@ export default class FeatherLocation extends URL {
     return this;
   }
 }
+
+_$feather.classes["Location"] = Location;
+// @ts-ignore
+self.Location = FeatherLocation;

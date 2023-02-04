@@ -1,12 +1,10 @@
 import FeatherBundle from "~/types/FeatherBundle";
-import FeatherClient from "~/types/FeatherClient";
 
 declare var _$feather: FeatherBundle;
-declare var _$featherClient: FeatherClient;
+declare var _$f: <T>(x: T) => T;
 
 export default function MutationInit() {
-  let origin =
-    _$featherClient.location.origin + _$featherClient.location.pathname;
+  let origin = _$f(location).origin + _$f(location).pathname;
 
   new MutationObserver((mutations, observer) => {
     for (let mutation of mutations) {
@@ -25,8 +23,32 @@ export default function MutationInit() {
                 );
               }
               break;
+            case "link":
+              {
+                let link = element as HTMLLinkElement;
+                link.href = _$feather.rewrite.url(
+                  link.getAttribute("href") || "",
+                  origin
+                );
+              }
+              break;
+            case "style":
+              {
+                let style = element as HTMLStyleElement;
+                style.innerHTML = _$feather.rewrite.css(style.innerHTML);
+              }
+              break;
+            case "img":
+              {
+                let image = element as HTMLImageElement;
+                image.src = _$feather.rewrite.url(
+                  image.getAttribute("src") || "",
+                  _$f(location).href
+                );
+              }
+              break;
+
             case "script":
-              console.log(element);
               {
                 let oldScript = element as HTMLScriptElement;
                 let script = document.createElement("script");
@@ -35,7 +57,13 @@ export default function MutationInit() {
                     oldScript.getAttribute("src") || "",
                     origin
                   );
-                if (oldScript.innerHTML) script.innerHTML = _$feather.rewrite.js(oldScript.innerHTML);
+                if (oldScript.type) script.type = oldScript.type;
+                if (
+                  oldScript.innerHTML &&
+                  ["application/javascript", undefined].includes(oldScript.type)
+                )
+                  script.innerHTML = _$feather.rewrite.js(oldScript.innerHTML);
+
                 script.async = oldScript.async;
                 script.defer = oldScript.defer;
                 script.type = oldScript.type;

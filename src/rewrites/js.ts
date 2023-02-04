@@ -18,19 +18,15 @@ export default function js(content: string, origin?: string): string {
       };
     } else if (
       parent &&
-      ["BinaryExpression", "IfStatement", "ConditionalExpression"].includes(
-        parent.type
-      ) &&
+      [
+        "BinaryExpression",
+        "IfStatement",
+        "ConditionalExpression",
+        undefined
+      ].includes(parent.type) &&
       node.type === "Identifier"
     ) {
-      node = {
-        type: "CallExpression",
-        callee: {
-          type: "Identifier",
-          name: "_$f"
-        },
-        arguments: [node]
-      };
+      node.name = `_$f(${node.name})`;
     } else if (
       node.type === "Literal" &&
       (parent.type === "ImportDeclaration" ||
@@ -68,7 +64,9 @@ function walkAST(
 function getAST(js: string): any {
   try {
     return parseScript(js, {
-      module: true
+      module: true,
+      webcompat: true,
+      specDeviation: true
     });
   } catch (err) {
     console.error(err);

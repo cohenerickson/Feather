@@ -7,8 +7,6 @@ const config: FeatherConfig = JSON.parse(
   decodeURIComponent(query.get("config") || "")
 );
 
-console.log(config);
-
 const worker = new FeatherWorker(config);
 
 self.addEventListener("fetch", (event) => {
